@@ -14,5 +14,6 @@
  */
 
 int edit_distn(const char *s1, size_t s1len, const char *s2, size_t s2len);
+int edit_dist(const char *a, const char *b);
 
 #endif  // ifndef __EDIT_DIST_H

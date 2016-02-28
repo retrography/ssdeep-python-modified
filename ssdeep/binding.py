@@ -49,12 +49,18 @@ cdef = """
         const char *,
         const char *
     );
+    
+    int edit_dist(
+        const char *a, 
+        const char *b
+    );
 
     static const long ssdeep_HAS_STATEFUL_HASHING;
 """
 
 source = """
     #include "fuzzy.h"
+    #include "edit_dist.h"
 
     #ifndef FUZZY_FLAG_ELIMSEQ
     static const long ssdeep_HAS_STATEFUL_HASHING = 0;

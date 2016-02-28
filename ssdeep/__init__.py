@@ -188,6 +188,44 @@ def compare(sig1, sig2):
     return res
 
 
+def edit_dist(hash1, hash2):
+    """
+    Calculates the Levenshtein-Damreau distance according to 
+    the customized weights appropriate for spamsum.
+
+    :param Bytes|String hash1: First fuzzy hash
+    :param Bytes|String hash2: Second fuzzy hash
+    :return: Levenshtein distance
+    :rtype: Integer
+    :raises InternalError: If lib returns an internal error
+    :raises TypeError: If sig is not String, Unicode or Bytes
+
+    """
+
+    if isinstance(hash1, six.text_type):
+        hash1 = hash1.encode("ascii")
+    if isinstance(hash2, six.text_type):
+        hash2 = hash2.encode("ascii")
+
+    if not isinstance(hash1, six.binary_type):
+        raise TypeError(
+            "First argument must be of string, unicode or bytes type not "
+            "'%s'" % type(hash1)
+        )
+
+    if not isinstance(hash2, six.binary_type):
+        raise TypeError(
+            "Second argument must be of string, unicode or bytes type not "
+            "'%r'" % type(hash2)
+        )
+
+    res = binding.lib.edit_dist(hash1, hash2)
+    if res < 0:
+        raise InternalError("Function returned an unexpected error code")
+
+    return res
+
+
 def hash(buf, encoding="utf-8"):
     """
     Compute the fuzzy hash of a buffer

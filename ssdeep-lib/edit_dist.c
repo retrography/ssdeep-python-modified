@@ -11,6 +11,8 @@
  * Copyright (C) 2014 Jesse Kornblum <research@jessekornblum.com>
  */
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define EDIT_DISTN_MAXLEN 64 /* MAX_SPAMSUM */
 #define EDIT_DISTN_INSERT_COST 1
@@ -42,13 +44,6 @@ int edit_distn(const char *s1, size_t s1len, const char *s2, size_t s2len) {
   return t1[s2len];
 }
 
-
-#ifdef __UNITTEST
-#include <stdio.h>
-#include <stdlib.h>
-
-#define HELLOWORLD "Hello World!"
-
 // Convenience method for getting the edit distance of two strings
 int edit_dist(const char *a, const char *b) {
   unsigned int a_len = 0, b_len = 0;
@@ -60,43 +55,3 @@ int edit_dist(const char *a, const char *b) {
   return edit_distn(a, a_len, b, b_len);
 }
 
-// Exercises edit_dist on a and b. If the result matches the expected value,
-// returns 0. If not, displays the message and returns 1.
-int run_test(char *a, char *b, int expected, char *msg) {
-  int actual = edit_dist(a,b);
-  if (actual == expected)
-    return 0;
-
-  printf ("FAIL: Expected %d, got %d for %s:%s, %s\n",
-          expected,
-          actual,
-          a,
-          b,
-          msg);
-  return 1;
-}
-
-#define RUN_TEST(A,B,EXPECTED,MSG)   failures += run_test(A,B,EXPECTED,MSG)
-
-int main(void) {
-  unsigned int failures = 0;
-
-  RUN_TEST(NULL, HELLOWORLD, 12, "Null source");
-  RUN_TEST(HELLOWORLD, NULL, 12, "Null dest");
-  RUN_TEST("", HELLOWORLD, 12, "Empty source");
-  RUN_TEST(HELLOWORLD, "", 12, "Empty destination");
-  RUN_TEST(HELLOWORLD, HELLOWORLD, 0, "Equal strings");
-  RUN_TEST("Hello world", "Hell world", 1, "Delete");
-  RUN_TEST("Hell world", "Hello world", 1, "Insert");
-  RUN_TEST("Hello world", "Hello owrld", 2, "Swap");
-  RUN_TEST("Hello world", "HellX world", 2, "Change");
-
-  if (failures) {
-    printf ("\n%u tests failed.\n", failures);
-    return EXIT_FAILURE;
-  }
-
-  printf ("All tests passed.\n");
-  return EXIT_SUCCESS;
-}
-#endif
