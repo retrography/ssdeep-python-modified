@@ -50,14 +50,14 @@ If all requirements are met it is possible to install the wrapper by using pip o
 
 .. code-block:: console
 
-    $ pip install ssdeep
+    $ easy_install-3.5 .
 
 The build will fail if the ssdeep library isn't installed.
 To use the included version of the ssdeep library use the following command.
 
 .. code-block:: console
 
-    $ BUILD_LIB=1 pip install ssdeep
+    $ BUILD_LIB=1 easy_install-3.5 .
 
 For more information have a look at the `python-ssdeep documentation`_.
 
